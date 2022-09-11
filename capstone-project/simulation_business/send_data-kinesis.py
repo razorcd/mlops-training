@@ -5,7 +5,7 @@ from time import sleep
 import logging
 import pyarrow.csv as pcsv
 
-RESULTS_STREAM_NAME = os.getenv('RESULTS_STREAM_NAME', 'results')
+PREDICTIONS_STREAM_NAME = os.getenv('PREDICTIONS_STREAM_NAME', 'predictions')
 KINESIS_ADDRESS = os.getenv('KINESIS_ADDRESS', 'http://127.0.0.1:4566')
 
 log = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ kinesis_client = boto3.client('kinesis',
 
 def publish_result(partition_key, event):
     kinesis_client.put_record(
-        StreamName=RESULTS_STREAM_NAME,
+        StreamName=PREDICTIONS_STREAM_NAME,
         Data=json.dumps(event),
         PartitionKey=str(partition_key)
     )
